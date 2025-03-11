@@ -10,6 +10,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,19 +28,16 @@ fun ItemWrapper(
     item: Item,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    itemStack: WeakReference<SnapshotStateList<Item>>,
-    count: MutableState<Int>
+    count: MutableState<Int>,
+    itemsToCountMap: WeakReference<SnapshotStateMap<Item, MutableState<Int>>> ,
 ) {
-    val statePrice = remember { mutableStateOf(item.price) }
-
     Row(modifier = modifier, horizontalArrangement = horizontalArrangement, verticalAlignment = verticalAlignment) {
         Text(text = "${item.name} x${count.value}", modifier = Modifier.padding(horizontal = 10.dp))
         Row(verticalAlignment = verticalAlignment) {
-            Text(text = "${statePrice.value * count.value} ₱", modifier = Modifier.padding(horizontal = 10.dp))
+            Text(text = "${item.price * count.value} ₱", modifier = Modifier.padding(horizontal = 10.dp))
             Button(
                 onClick = {
                     count.value += 1
-
                 }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
@@ -49,7 +47,7 @@ fun ItemWrapper(
             Button(
                 onClick = {
                     if (count.value - 1 == 0) {
-                        itemStack.get()?.remove(item)
+                        itemsToCountMap.get()?.remove(item)
                     } else {
                         count.value -= 1
                     }
@@ -57,6 +55,15 @@ fun ItemWrapper(
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
                 Text("-")
+            }
+
+            Button(
+                onClick = {
+                    itemsToCountMap.get()?.remove(item)
+                }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+                elevation = ButtonDefaults.elevation(0.dp)
+            ) {
+                Text("⛔\uFE0F")
             }
         }
     }

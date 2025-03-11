@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,11 +16,9 @@ fun ItemsSection(
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    itemsToCountMap: WeakReference<SnapshotStateMap<Item, MutableState<Int>>>
 ) {
-    val itemsStack = remember { mutableStateListOf<Item>() } // lift this state
-    val counts = remember { mutableStateListOf<MutableState<Int>>() } // maybe make this into a map instead?
-
-//    val itemsToCountMap = remember { mutableStateMapOf<SnapshotStateList<Item>, MutableState<Int>>() }
+    val itemsToCount = itemsToCountMap.get()
 
     LazyColumn(
         modifier = modifier,
@@ -29,39 +27,39 @@ fun ItemsSection(
     ) {
         item {
             Button(onClick = {
-                if (itemsStack.contains(
+                if (itemsToCount?.containsKey(
                         Item(
                             price = 100.00,
                             name = "Can Tuna"
                         )
-                    )
+                    ) == true
                 ) {
-                    counts[itemsStack.indexOf(
-                        Item(
-                            price = 100.00,
-                            name = "Can Tuna"
-                        )
-                    )].value += 1
+                    itemsToCount[Item(
+                        price = 100.00,
+                        name = "Can Tuna"
+                    )]?.value = itemsToCount[Item(
+                        price = 100.00,
+                        name = "Can Tuna"
+                    )]?.value!! + 1
                 } else {
-                    itemsStack.add(
+                    itemsToCount?.set(
                         Item(
                             price = 100.00,
                             name = "Can Tuna"
-                        )
+                        ), mutableStateOf(1)
                     )
-                    counts.add(mutableStateOf(1))
                 }
             }) {
                 Text("Simulate bar code read")
             }
 
-            itemsStack.forEachIndexed() { index, item ->
+            itemsToCount?.forEach { entry ->
                 ItemWrapper(
-                    modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth(), item = item,
+                    modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth(), item = entry.key,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
-                    itemStack = WeakReference(itemsStack),
-                    count = counts[index]
+                    count = entry.value,
+                    itemsToCountMap = itemsToCountMap
                 )
             }
         }
