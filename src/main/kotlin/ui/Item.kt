@@ -19,7 +19,8 @@ import java.lang.ref.WeakReference
 
 data class Item(
     val price: Double,
-    val name: String
+    val name: String,
+    val id: Long = 0L
 )
 
 @Composable

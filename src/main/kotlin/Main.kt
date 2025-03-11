@@ -1,8 +1,11 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.key.*
@@ -12,17 +15,26 @@ import androidx.compose.ui.window.application
 import ui.Item
 import ui.ItemsSection
 import ui.TotalsSection
-import java.awt.event.KeyEvent
+import util.handleKeyEvents
 import java.io.File
+import java.lang.StringBuilder
 import javax.imageio.ImageIO
 
 @Composable
 @Preview
 fun App() {
-    val itemsToCountMap = remember { mutableStateMapOf<Item, MutableState<Int>>() } // lift this up
+    val itemsToCountMap = remember { mutableStateMapOf<Item, MutableState<Int>>() }
+    val requester = remember { FocusRequester() }
+    val stringBuilder = remember { mutableStateOf(StringBuilder()) }
+
+    LaunchedEffect(Unit) {
+        requester.requestFocus()
+    }
 
     MaterialTheme {
-        Column {
+        Column(modifier = Modifier.focusRequester(requester).focusable().onKeyEvent {
+            return@onKeyEvent handleKeyEvents(it, itemsToCountMap, stringBuilder)
+        }) {
             ItemsSection(
                 modifier = Modifier.padding(10.dp).fillMaxWidth()
                     .fillMaxHeight(0.8f),
@@ -40,29 +52,10 @@ fun App() {
 fun main() = application {
     val icon = ImageIO.read(File("src/main/kotlin/images/ruales_icon.png"))
 
-    val stringBuilder = StringBuilder()
-
     Window(
         onCloseRequest = ::exitApplication,
         title = "Ruales POS",
-        icon = BitmapPainter(image = icon.toComposeImageBitmap()),
-        onKeyEvent = {
-            if (it.type == KeyEventType.KeyDown) {
-
-                // well need a price to barcode map
-                if (it.key == Key.Enter) {
-                    println(stringBuilder.toString())
-                    stringBuilder.clear()
-                    return@Window true
-                }
-
-                stringBuilder.append(KeyEvent.getKeyText(it.key.nativeKeyCode))
-
-                return@Window false
-            }
-
-            return@Window false
-        }
+        icon = BitmapPainter(image = icon.toComposeImageBitmap())
     ) {
         App()
     }

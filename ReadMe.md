@@ -7,10 +7,11 @@ Things to do:
  - [x] Lift up itemsToCount state
  - [x] Make area for totals
  - [x] Simulate on barcode scan
- - [ ] Put barcode scan as an item in interface
+ - [x] Have a prototype scan for the scanner to scan the barcode and update the ui
+ - [ ] Make database for Item class
  - [ ] Make .env file to store database metadata
  - [ ] let the database be postgres
- - [ ] add id to Item class
+ - [x] add id to Item class
  - [x] Add a column for these items in scan
  - [ ] Make a temp folder for simulation
  - [x] Make Item model
