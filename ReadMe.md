@@ -8,12 +8,15 @@ Things to do:
  - [x] Make area for totals
  - [x] Simulate on barcode scan
  - [ ] Put barcode scan as an item in interface
+ - [ ] Make .env file to store database metadata
+ - [ ] let the database be postgres
+ - [ ] add id to Item class
  - [x] Add a column for these items in scan
  - [ ] Make a temp folder for simulation
  - [x] Make Item model
- - [ ] Make a totals row
+ - [x] Make a totals row
  - [x] Make an items row
- - [ ] Make a clear all row
+ - [x] Make a clear all row
  - [x] Let Item model be something that can be removed
  - [ ] Integrate actual connection of barcode scanner and map info to Item class
- - [ ] Make a print receipt button
+ - [x] Make a print receipt button

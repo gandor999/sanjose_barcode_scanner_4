@@ -30,7 +30,7 @@ fun ItemsSection(
                             price = 100.00,
                             name = "Can Tuna"
                         )
-                    ) == true
+                    )
                 ) {
                     itemsToCountMap[Item(
                         price = 100.00,
@@ -40,18 +40,16 @@ fun ItemsSection(
                         name = "Can Tuna"
                     )]?.value!! + 1
                 } else {
-                    itemsToCountMap?.set(
-                        Item(
-                            price = 100.00,
-                            name = "Can Tuna"
-                        ), mutableStateOf(1)
-                    )
+                    itemsToCountMap[Item(
+                        price = 100.00,
+                        name = "Can Tuna"
+                    )] = mutableStateOf(1)
                 }
             }) {
                 Text("Simulate bar code read")
             }
 
-            itemsToCountMap?.forEach { entry ->
+            itemsToCountMap.forEach { entry ->
                 ItemWrapper(
                     modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth(), item = entry.key,
                     horizontalArrangement = Arrangement.SpaceBetween,
