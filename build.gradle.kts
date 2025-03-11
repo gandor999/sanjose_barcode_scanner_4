@@ -20,6 +20,8 @@ dependencies {
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
+    implementation("org.postgresql:postgresql:42.5.0")
+    implementation("io.github.cdimascio:dotenv-java:3.2.0")
 }
 
 compose.desktop {

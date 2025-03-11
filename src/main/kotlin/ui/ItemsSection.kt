@@ -24,32 +24,6 @@ fun ItemsSection(
         horizontalAlignment = horizontalAlignment
     ) {
         item {
-//            Button(onClick = {
-//                itemsToCountMap.entries.map { it.key.id }.contains()
-//                if (itemsToCountMap.containsKey(
-//                        Item(
-//                            price = 100.00,
-//                            name = "Can Tuna"
-//                        )
-//                    )
-//                ) {
-//                    itemsToCountMap[Item(
-//                        price = 100.00,
-//                        name = "Can Tuna"
-//                    )]?.value = itemsToCountMap[Item(
-//                        price = 100.00,
-//                        name = "Can Tuna"
-//                    )]?.value!! + 1
-//                } else {
-//                    itemsToCountMap[Item(
-//                        price = 100.00,
-//                        name = "Can Tuna"
-//                    )] = mutableStateOf(1)
-//                }
-//            }) {
-//                Text("Simulate bar code read")
-//            }
-
             itemsToCountMap.forEach { entry ->
                 ItemWrapper(
                     modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth(), item = entry.key,

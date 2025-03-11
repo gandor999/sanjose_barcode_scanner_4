@@ -1,19 +1,21 @@
 Things to do:
 
  - [x] Make the design for the interface first
- - [ ] Let interface design just be one square for items and one square for total, clear, and print reciept
+ - [x] Let interface design just be one square for items and one square for total, clear, and print reciept
  - [x] Make area for items
  - [x] Make the item to count into map instead
  - [x] Lift up itemsToCount state
  - [x] Make area for totals
  - [x] Simulate on barcode scan
  - [x] Have a prototype scan for the scanner to scan the barcode and update the ui
- - [ ] Make database for Item class
- - [ ] Make .env file to store database metadata
- - [ ] let the database be postgres
+ - [x] Make database for Item class
+ - [x] Make .env file to store database metadata
+ - [x] let the database be postgres
  - [x] add id to Item class
  - [x] Add a column for these items in scan
- - [ ] Make a temp folder for simulation
+ - [x] Make a button to go to another page to set the database items
+ - [x] Implement sensilyo dialog to calculate change
+ - [ ] Implement delete, update, and get
  - [x] Make Item model
  - [x] Make a totals row
  - [x] Make an items row
