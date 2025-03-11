@@ -36,15 +36,44 @@ object Database {
     fun insertItem(item: Item): Boolean {
         return try {
             if (!isItemInDatabaseById(item.id)) {
-                val query = connection?.prepareStatement("INSERT INTO public.\"Item\" (id, name, price) VALUES (${item.id}, ${item.name}, ${item.price})")
-
+                val query = connection?.prepareStatement("INSERT INTO public.\"Item\" (id, name, price) VALUES (${item.id}, \'${item.name}\', ${item.price})")
                 query?.executeUpdate()
-
                 return true
             }
 
             false
         } catch (e: Exception) {
+            println(e)
+            false
+        }
+    }
+
+    fun updateAnItem(item: Item): Boolean {
+        return try {
+            if (isItemInDatabaseById(item.id)) {
+                val query = connection?.prepareStatement("UPDATE public.\"Item\" SET name = \'${item.name}\' price = ${item.price} WHERE id = ${item.id}'")
+                query?.executeUpdate()
+                return true
+            }
+
+            false
+        } catch (e: Exception) {
+            println(e)
+            false
+        }
+    }
+
+    fun deleteItemById(id: Long): Boolean {
+        return try {
+            if (isItemInDatabaseById(id)) {
+                val query = connection?.prepareStatement("DELETE FROM public.\"Item\" WHERE id = $id")
+                query?.executeUpdate()
+                return true
+            }
+
+            false
+        } catch (e: Exception) {
+            println(e)
             false
         }
     }

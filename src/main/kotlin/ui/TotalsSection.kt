@@ -1,8 +1,6 @@
 package ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -15,9 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -59,13 +55,14 @@ fun TotalsSection(
 
                     Button(
                         onClick = {
-                            sensilyo.value = totalPrice - bayad.value.toDouble()
-                        }
-                    ){
+                            if (bayad.value.isNotEmpty()) sensilyo.value = bayad.value.toDouble() - totalPrice
+
+                        }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127))
+                    ) {
                         Text("Kwenta")
                     }
 
-                    Text("Sensilyo: ${sensilyo.value} ₱",  fontSize = TextUnit(35f, TextUnitType.Sp))
+                    Text("Sensilyo: ${sensilyo.value} ₱", fontSize = TextUnit(35f, TextUnitType.Sp))
                 }
             }
         }
@@ -79,9 +76,9 @@ fun TotalsSection(
             Row {
                 Button(
                     onClick = {
-                       showDatabaseInsertionPage.value = true
+                        showDatabaseInsertionPage.value = true
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127)),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
                     modifier = Modifier.padding(horizontal = 5.dp)
                 ) {
                     Text("Datos")
@@ -92,7 +89,7 @@ fun TotalsSection(
                         openAlertDialog.value = true
 //                        dialogText.value = ""
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127)),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
                     modifier = Modifier.padding(horizontal = 5.dp)
                 ) {
                     Text("Sensilyo")
@@ -101,7 +98,7 @@ fun TotalsSection(
                 Button(
                     onClick = {
 //                        itemsToCountMap.clear()
-                              // TODO
+                        // TODO
                     },
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(173, 216, 230)),
                     modifier = Modifier.padding(horizontal = 5.dp)

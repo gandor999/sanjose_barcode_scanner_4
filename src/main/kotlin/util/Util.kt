@@ -3,7 +3,6 @@ package util
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.key.*
 import database.Database
 import ui.Item
@@ -20,11 +19,11 @@ fun handleKeyEvents(
             val scanId = stringBuild.toString().toLong()
 
             if (itemsToCountMap.entries.map { item -> item.key.id }
-                    .contains(scanId)) {
+                    .contains(scanId) && Database.isItemInDatabaseById(scanId)) {
                 Database.getItemById(scanId)?.let {
                     itemsToCountMap[it]!!.value += 1
                 }
-            } else {
+            } else if(Database.isItemInDatabaseById(scanId)) {
                 Database.getItemById(scanId)?.let { item ->
                     itemsToCountMap[Item(
                         price = item.price,

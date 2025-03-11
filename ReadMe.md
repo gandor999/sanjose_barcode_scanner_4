@@ -15,7 +15,9 @@ Things to do:
  - [x] Add a column for these items in scan
  - [x] Make a button to go to another page to set the database items
  - [x] Implement sensilyo dialog to calculate change
- - [ ] Implement delete, update, and get
+ - [x] Implement delete, update
+ - [ ] Implement get and getAll
+ - [ ] Refactor page navigation
  - [x] Make Item model
  - [x] Make a totals row
  - [x] Make an items row

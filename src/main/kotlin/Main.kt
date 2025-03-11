@@ -1,33 +1,18 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import androidx.compose.ui.input.key.*
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import database.Database
 import io.github.cdimascio.dotenv.Dotenv
-import ui.*
-import util.DatabaseMetadata
-import util.handleKeyEvents
+import ui.CRUDPage
+import ui.Cashier
+import ui.Item
 import java.io.File
-import java.nio.file.Path
 import java.nio.file.Paths
-import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 import javax.imageio.ImageIO
@@ -63,12 +48,12 @@ fun main() = application {
         Database.connection =
             DriverManager.getConnection(dotEnv["DATABASE_URL"], dotEnv["DATABASE_USER"], dotEnv["DATABASE_PASSWORD"])
     } catch (e: SQLException) {
-        println("Connection failed!")
+        println("Connection to database failed!")
         e.printStackTrace()
     }
 
     Database.connection?.let {
-        println("connected to database")
+        println("Connected to database")
     }
 
     Window(
