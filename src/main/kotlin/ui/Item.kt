@@ -29,7 +29,7 @@ fun ItemWrapper(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     count: MutableState<Int>,
-    itemsToCountMap: WeakReference<SnapshotStateMap<Item, MutableState<Int>>> ,
+    itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>> ,
 ) {
     Row(modifier = modifier, horizontalArrangement = horizontalArrangement, verticalAlignment = verticalAlignment) {
         Text(text = "${item.name} x${count.value}", modifier = Modifier.padding(horizontal = 10.dp))
@@ -47,7 +47,7 @@ fun ItemWrapper(
             Button(
                 onClick = {
                     if (count.value - 1 == 0) {
-                        itemsToCountMap.get()?.remove(item)
+                        itemsToCountMap.remove(item)
                     } else {
                         count.value -= 1
                     }
@@ -59,7 +59,7 @@ fun ItemWrapper(
 
             Button(
                 onClick = {
-                    itemsToCountMap.get()?.remove(item)
+                    itemsToCountMap.remove(item)
                 }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 elevation = ButtonDefaults.elevation(0.dp)
             ) {

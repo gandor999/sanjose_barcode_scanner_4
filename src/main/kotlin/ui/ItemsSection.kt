@@ -9,16 +9,14 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import java.lang.ref.WeakReference
 
 @Composable
 fun ItemsSection(
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    itemsToCountMap: WeakReference<SnapshotStateMap<Item, MutableState<Int>>>
+    itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>
 ) {
-    val itemsToCount = itemsToCountMap.get()
 
     LazyColumn(
         modifier = modifier,
@@ -27,22 +25,22 @@ fun ItemsSection(
     ) {
         item {
             Button(onClick = {
-                if (itemsToCount?.containsKey(
+                if (itemsToCountMap.containsKey(
                         Item(
                             price = 100.00,
                             name = "Can Tuna"
                         )
                     ) == true
                 ) {
-                    itemsToCount[Item(
+                    itemsToCountMap[Item(
                         price = 100.00,
                         name = "Can Tuna"
-                    )]?.value = itemsToCount[Item(
+                    )]?.value = itemsToCountMap[Item(
                         price = 100.00,
                         name = "Can Tuna"
                     )]?.value!! + 1
                 } else {
-                    itemsToCount?.set(
+                    itemsToCountMap?.set(
                         Item(
                             price = 100.00,
                             name = "Can Tuna"
@@ -53,7 +51,7 @@ fun ItemsSection(
                 Text("Simulate bar code read")
             }
 
-            itemsToCount?.forEach { entry ->
+            itemsToCountMap?.forEach { entry ->
                 ItemWrapper(
                     modifier = Modifier.padding(horizontal = 10.dp).fillMaxWidth(), item = entry.key,
                     horizontalArrangement = Arrangement.SpaceBetween,
