@@ -18,6 +18,7 @@ Things to do:
  - [x] Implement delete, update
  - [ ] Implement get and getAll
  - [ ] Refactor page navigation
+ - [ ] Pag himo ug installation ani na app
  - [x] Make Item model
  - [x] Make a totals row
  - [x] Make an items row
