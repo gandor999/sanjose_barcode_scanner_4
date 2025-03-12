@@ -36,7 +36,7 @@ fun ItemWrapper(
             Button(
                 onClick = {
                     count.value += 1
-                }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
+                }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(116, 140, 171)),
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
                 Text("+")
@@ -49,7 +49,7 @@ fun ItemWrapper(
                     } else {
                         count.value -= 1
                     }
-                }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127)),
+                }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(171, 78, 104)),
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
                 Text("-")
