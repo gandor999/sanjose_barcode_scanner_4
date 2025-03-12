@@ -16,13 +16,18 @@ Things to do:
  - [x] Make a button to go to another page to set the database items
  - [x] Implement sensilyo dialog to calculate change
  - [x] Implement delete, update
- - [ ] Fix ilis bug
+ - [x] Fix ilis bug
  - [x] Change sensilyo with sukli
- - [ ] Implement a new navigation bar on the left side
+ - [x] Implement a new navigation bar on the left side
  - [x] Refactor the whole passing of states thing to just one object, its such a hassle to keep on maintaining more than one parameter for each function
  - [x] Improve exception handling
  - [ ] Implement get and getAll
- - [ ] Refactor page navigation
+ - [ ] Let get all be just a modal?
+ - [ ] Implement utang page
+ - [ ] Implement inventory page
+ - [ ] Implement halin page
+ - [ ] Implement ug barcode maker page
+ - [x] Refactor page navigation
  - [ ] make keyboard shortcuts to make things alot faster
  - [x] Pag himo ug installation ani na app
  - [x] Make Item model

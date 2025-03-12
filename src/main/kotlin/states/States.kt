@@ -3,9 +3,7 @@ package states
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.window.application
 import ui.Item
-import java.lang.NumberFormatException
 
 data class MutableStates(
     val itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>,
@@ -30,7 +28,7 @@ object States {
     fun init(): MutableStates {
         mutableStates = MutableStates(
             itemsToCountMap = remember { mutableStateMapOf() },
-            currentPage = remember { mutableStateOf(Pages.Cashier) },
+            currentPage = remember { mutableStateOf(Pages.Tinda) },
             requester = remember { FocusRequester() },
             stringBuilder = remember { mutableStateOf(StringBuilder()) },
             errorDialogConfig = remember { mutableStateOf(ErrorDialogConfig()) }

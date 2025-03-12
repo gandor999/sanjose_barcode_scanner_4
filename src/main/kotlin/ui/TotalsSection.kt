@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import states.MutableStates
-import states.Pages
 
 @Composable
 fun TotalsSection(
@@ -34,38 +33,14 @@ fun TotalsSection(
         horizontalAlignment = horizontalAlignment
     ) {
         var totalPrice = 0.00;
-        val openAlertDialog = remember { mutableStateOf(false) }
-        val sukli = remember { mutableStateOf(0.00) }
-        val bayad = remember { mutableStateOf("") }
+        val openKwentaDialog = remember { mutableStateOf(false) }
 
         itemsToCountMap.forEach { entry ->
             totalPrice += (entry.key.price * entry.value.value)
         }
 
-        if (openAlertDialog.value) {
-            Dialog(onDismissRequest = {
-                openAlertDialog.value = false
-            }) {
-                Column(modifier = Modifier.background(color = Color.White).padding(10.dp).fillMaxWidth()) {
-                    OutlinedTextField(
-                        value = bayad.value,
-                        onValueChange = { bayad.value = it },
-                        label = { Text("Bayad") },
-                        singleLine = true
-                    )
-
-                    Button(
-                        onClick = {
-                            if (bayad.value.isNotEmpty()) sukli.value = bayad.value.toDouble() - totalPrice
-
-                        }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127))
-                    ) {
-                        Text("Kwenta")
-                    }
-
-                    Text("Sukli: ${sukli.value} ₱", fontSize = TextUnit(35f, TextUnitType.Sp))
-                }
-            }
+        if (openKwentaDialog.value) {
+            KwentaDialog(openKwentaDialog, totalPrice)
         }
 
         Row(
@@ -77,20 +52,9 @@ fun TotalsSection(
             Row {
                 Button(
                     onClick = {
-                        mutableStates.currentPage.value = Pages.Database
+                        openKwentaDialog.value = true
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
-                    modifier = Modifier.padding(horizontal = 5.dp)
-                ) {
-                    Text("Datos")
-                }
-
-                Button(
-                    onClick = {
-                        openAlertDialog.value = true
-//                        dialogText.value = ""
-                    },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(116, 140, 171)),
                     modifier = Modifier.padding(horizontal = 5.dp)
                 ) {
                     Text("Sukli")
@@ -98,10 +62,9 @@ fun TotalsSection(
 
                 Button(
                     onClick = {
-//                        itemsToCountMap.clear()
                         // TODO
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(173, 216, 230)),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(116, 140, 171)),
                     modifier = Modifier.padding(horizontal = 5.dp)
                 ) {
                     Text("Panghad")
@@ -110,7 +73,7 @@ fun TotalsSection(
                     onClick = {
                         itemsToCountMap.clear()
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127)),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(171, 78, 104)),
                     modifier = Modifier.padding(horizontal = 5.dp)
                 ) {
                     Text("Hawan")

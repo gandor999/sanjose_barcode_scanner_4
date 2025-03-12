@@ -37,12 +37,12 @@ fun Cashier(mutableStates: MutableStates) {
             }
         }) {
         ItemsSection(
-            modifier = Modifier.padding(10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black)
+            modifier = Modifier.fillMaxWidth().border(width = 1.dp, color = Color.Black)
                 .fillMaxHeight(0.8f),
             mutableStates = mutableStates
         )
         TotalsSection(
-            modifier = Modifier.padding(10.dp).fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             mutableStates = mutableStates
         )

@@ -21,6 +21,10 @@ class ErrorHandler {
                     errorDialogConfig.errorMessage = "Could not connect ot database"
                 }
 
+                is  NumberFormatException -> {
+                    errorDialogConfig.errorMessage = "Dapat number ang e butang"
+                }
+
                 else -> {
                 }
             }

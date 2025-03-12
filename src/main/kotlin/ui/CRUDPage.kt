@@ -9,7 +9,6 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
@@ -17,50 +16,50 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import database.Database
-import error_handling.ErrorHandler
 import states.MutableStates
-import states.Pages
 import util.safeRun
 
 @Composable
 fun CRUDPage(mutableStates: MutableStates) {
     val requester = mutableStates.requester
 
-    Column(modifier = Modifier.focusRequester(requester).padding(10.dp)) {
+    Column(modifier = Modifier.focusRequester(requester)) {
         var itemName by remember { mutableStateOf("") }
         var barcode by remember { mutableStateOf("") }
         var price by remember { mutableStateOf("") }
 
-        val openAlertDialog = remember { mutableStateOf(false) }
+        val openSuccessDialog = remember { mutableStateOf(false) }
         val dialogText = remember { mutableStateOf("") }
 
         OutlinedTextField(
             value = barcode,
             onValueChange = { barcode = it },
             label = { Text("bardcode") },
-            singleLine = true
+            singleLine = true,
+            placeholder = { Text("Sample: 748485100418")}
         )
 
         OutlinedTextField(
             value = itemName,
             onValueChange = { itemName = it },
             label = { Text("itemName") },
-            singleLine = true
+            singleLine = true,
+            placeholder = { Text("Sample: Tuna")}
         )
 
         OutlinedTextField(
             value = price,
             onValueChange = { price = it },
             label = { Text("price") },
-            singleLine = true
+            singleLine = true,
+            placeholder = { Text("Sample: 10.00")}
         )
 
-        Row {
+        Row(modifier = Modifier.padding(top = 10.dp)) {
             Button(
                 onClick ={
                     safeRun(mutableStates) {
                         check(barcode.isNotEmpty() || itemName.isNotEmpty() || price.isNotEmpty()) { "Dapat naay unod ang mga kahon" }
-                        check(!Database.isItemInDatabaseById(barcode.toLong())) { "Naa na ni na barcode sa atung database" }
                         check(
                             Database.insertItem(
                                 Item(
@@ -72,29 +71,13 @@ fun CRUDPage(mutableStates: MutableStates) {
                         ) { "Wala na dugang ang item, palihug lantaw usab sa mga kahon" }
 
                         dialogText.value = "Na dugang ang $barcode | $itemName sa presyo na $price ₱"
-                        openAlertDialog.value = true
+                        openSuccessDialog.value = true
                     }
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
-                modifier = Modifier.padding(horizontal = 5.dp)
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(187, 190, 100)),
+                modifier = Modifier.padding(end = 5.dp)
             ) {
                 Text("Dugang")
-            }
-
-            Button(
-                onClick = {
-                    safeRun(mutableStates) {
-                        check(barcode.isNotEmpty()) { "Dapat naay unod ang barcode" }
-                        check(Database.deleteItemById(barcode.toLong())) { "Wala na delete ang item sa database" }
-
-                        dialogText.value = "Na delete na ang ${barcode.toLong()} sa database"
-                        openAlertDialog.value = true
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127)),
-                modifier = Modifier.padding(horizontal = 5.dp)
-            ) {
-                Text("Tangtang")
             }
 
             Button(
@@ -112,10 +95,10 @@ fun CRUDPage(mutableStates: MutableStates) {
                         ) { "Wala na ilis ang item sa database, palihug check usab sa mga kahon" }
 
                         dialogText.value = "Na ilis na ang item na naay barcode: $barcode"
-                        openAlertDialog.value = true
+                        openSuccessDialog.value = true
                     }
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(173, 216, 230)),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(187, 190, 100)),
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
                 Text("Ilis")
@@ -127,25 +110,37 @@ fun CRUDPage(mutableStates: MutableStates) {
                         error("Wala pa ni na himo")
                     }
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(187, 190, 100)),
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
                 Text("Kuha")
             }
-        }
 
-        Button(onClick = {
-            mutableStates.currentPage.value = Pages.Cashier
-        }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144))) {
-            Text("Back to Cashier")
-        }
+            Button(
+                onClick = {
+                    safeRun(mutableStates) {
+                        check(barcode.isNotEmpty()) { "Dapat naay unod ang barcode" }
 
-        if (openAlertDialog.value) {
-            Dialog(onDismissRequest = {
-                openAlertDialog.value = false
-            }) {
-                Text(text = dialogText.value, fontSize = TextUnit(20f, TextUnitType.Sp), color = Color.White)
+                        check(Database.deleteItemById(barcode.toLong())) { "Wala na delete ang item sa database" }
+
+                        dialogText.value = "Na delete na ang ${barcode.toLong()} sa database"
+                        openSuccessDialog.value = true
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(171, 78, 104)),
+                modifier = Modifier.padding(horizontal = 5.dp)
+            ) {
+                Text("Tangtang")
             }
+        }
+
+        if (openSuccessDialog.value) {
+            SuccessDialog(openSuccessDialog, dialogText)
+//            Dialog(onDismissRequest = {
+//                openSuccessDialog.value = false
+//            }) {
+//                Text(text = dialogText.value, fontSize = TextUnit(20f, TextUnitType.Sp), color = Color.White)
+//            }
         }
     }
 }

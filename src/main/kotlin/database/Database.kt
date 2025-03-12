@@ -19,7 +19,7 @@ object Database {
         val query = connection?.prepareStatement("SELECT id, name, price FROM public.\"Item\" WHERE id = $id")
 
         query?.executeQuery().use { rs ->
-            if (rs?.next() == false || rs == null ) return null
+            if (rs?.next() == false || rs == null) return null
 
             if (isItemInDatabaseById(id)) {
                 return Item(
@@ -34,47 +34,28 @@ object Database {
     }
 
     fun insertItem(item: Item): Boolean {
-        return try {
-            if (!isItemInDatabaseById(item.id)) {
-                val query = connection?.prepareStatement("INSERT INTO public.\"Item\" (id, name, price) VALUES (${item.id}, \'${item.name}\', ${item.price})")
-                query?.executeUpdate()
-                return true
-            }
+        check(!isItemInDatabaseById(item.id)) { "Naa nay item barcode na ${item.id} sa database" }
 
-            false
-        } catch (e: Exception) {
-            println(e)
-            false
-        }
+        val query =
+            connection?.prepareStatement("INSERT INTO public.\"Item\" (id, name, price) VALUES (${item.id}, \'${item.name}\', ${item.price})")
+        query?.executeUpdate()
+        return true
     }
 
     fun updateAnItem(item: Item): Boolean {
-        return try {
-            if (isItemInDatabaseById(item.id)) {
-                val query = connection?.prepareStatement("UPDATE public.\"Item\" SET name = \'${item.name}\' price = ${item.price} WHERE id = ${item.id}")
-                query?.executeUpdate()
-                return true
-            }
+        check(isItemInDatabaseById(item.id)) { "Walay item na naay barcode na ${item.id} sa database" }
 
-            false
-        } catch (e: Exception) {
-            println(e)
-            false
-        }
+        val query =
+            connection?.prepareStatement("UPDATE public.\"Item\" SET name = \'${item.name}\', price = ${item.price} WHERE id = ${item.id}")
+        query?.executeUpdate()
+        return true
     }
 
     fun deleteItemById(id: Long): Boolean {
-        return try {
-            if (isItemInDatabaseById(id)) {
-                val query = connection?.prepareStatement("DELETE FROM public.\"Item\" WHERE id = $id")
-                query?.executeUpdate()
-                return true
-            }
+        check(isItemInDatabaseById(id)) { "Walay item na naay barcode na $id sa database" }
 
-            false
-        } catch (e: Exception) {
-            println(e)
-            false
-        }
+        val query = connection?.prepareStatement("DELETE FROM public.\"Item\" WHERE id = $id")
+        query?.executeUpdate()
+        return true
     }
 }

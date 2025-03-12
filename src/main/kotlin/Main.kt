@@ -1,35 +1,29 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import database.Database
 import error_handling.ErrorDialog
-import error_handling.ErrorHandler
 import io.github.cdimascio.dotenv.Dotenv
-import states.ErrorDialogConfig
 import states.MutableStates
 import states.Pages
 import states.States
 import ui.CRUDPage
 import ui.Cashier
+import ui.ContentSection
+import ui.NavigationBar
 import util.safeRun
 import java.io.File
 import java.nio.file.Paths
 import java.sql.DriverManager
-import java.sql.SQLException
 import javax.imageio.ImageIO
 
 
@@ -37,21 +31,10 @@ import javax.imageio.ImageIO
 @Preview
 fun App(mutableStates: MutableStates) {
     MaterialTheme {
-//        Column(modifier = Modifier.fillMaxWidth(0.1f).border(wid)) {
-//
-//        }
-        Row {
-            // NavigationBar()
-            when (mutableStates.currentPage.value) {
-                Pages.Cashier -> Cashier(mutableStates)
-                Pages.Database -> CRUDPage(mutableStates)
-                Pages.Debt -> TODO()
-                Pages.Inventory -> TODO()
-                Pages.SalesRecord -> TODO()
-            }
-
-            if (mutableStates.errorDialogConfig.value.openErrorDialog) {
-                ErrorDialog(mutableStates)
+        Card(backgroundColor = Color(240, 235, 216)) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                NavigationBar(mutableStates)
+                ContentSection(mutableStates)
             }
         }
     }

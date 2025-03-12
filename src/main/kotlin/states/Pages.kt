@@ -1,9 +1,10 @@
 package states
 
 enum class Pages {
-    Cashier,
-    Database,
-    Debt,
-    Inventory,
-    SalesRecord
+    Tinda,
+    Datos,
+    Utangan,
+    Imbentaryo,
+    Halin,
+    BarcodeGen
 }

@@ -19,34 +19,40 @@ fun handleKeyEvents(
     if (keyEvent.type == KeyEventType.KeyDown) {
         when (keyEvent.key) {
             Key.Enter -> {
-                val scanId = stringBuild.toString().toLong()
+                safeRun(mutableStates) {
+                    val scanId = stringBuild.toString().toLong()
 
-                if (itemsToCountMap.entries.map { item -> item.key.id }
-                        .contains(scanId) && Database.isItemInDatabaseById(scanId)) {
-                    Database.getItemById(scanId)?.let {
-                        itemsToCountMap[it]!!.value += 1
+                    if (itemsToCountMap.entries.map { item -> item.key.id }
+                            .contains(scanId) && Database.isItemInDatabaseById(scanId)) {
+                        Database.getItemById(scanId)?.let {
+                            itemsToCountMap[it]!!.value += 1
+                        }
+                    } else if (Database.isItemInDatabaseById(scanId)) {
+                        Database.getItemById(scanId)?.let { item ->
+                            itemsToCountMap[Item(
+                                price = item.price,
+                                name = item.name,
+                                id = item.id
+                            )] = mutableStateOf(1)
+                        }
                     }
-                } else if (Database.isItemInDatabaseById(scanId)) {
-                    Database.getItemById(scanId)?.let { item ->
-                        itemsToCountMap[Item(
-                            price = item.price,
-                            name = item.name,
-                            id = item.id
-                        )] = mutableStateOf(1)
-                    }
+
+                    stringBuild.clear()
                 }
-
-                stringBuild.clear()
 
                 return true
             }
 
             Key.Delete -> {
-                itemsToCountMap.clear()
+                safeRun(mutableStates) {
+                    itemsToCountMap.clear()
+                }
             }
 
             else -> {
-                stringBuild.append(java.awt.event.KeyEvent.getKeyText(keyEvent.key.nativeKeyCode))
+                safeRun(mutableStates) {
+                    stringBuild.append(java.awt.event.KeyEvent.getKeyText(keyEvent.key.nativeKeyCode))
+                }
             }
         }
 
