@@ -4,7 +4,8 @@ import org.jetbrains.kotlin.com.intellij.openapi.vfs.StandardFileSystems.jar
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
-    id("java")
+//    id("java")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.example.san_jose_barcode_scanner_4"
@@ -37,9 +38,17 @@ compose.desktop {
         }
     }
 
-    tasks.jar {
+//    tasks.jar {
+//        manifest {
+//            attributes ["Main-Class"] = application.mainClass
+//        }
+//    }
+
+    tasks.shadowJar {
+        archiveBaseName.set(application.nativeDistributions.packageName)
+        archiveVersion.set(application.nativeDistributions.packageVersion)
         manifest {
-            attributes ["Main-Class"] = application.mainClass
+            attributes["Main-Class"] = application.mainClass
         }
     }
 }
