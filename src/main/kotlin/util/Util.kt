@@ -5,17 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.input.key.*
 import database.Database
+import states.MutableStates
 import ui.Item
 
 fun handleKeyEvents(
     keyEvent: KeyEvent,
-    itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>,
-    stringBuilder: MutableState<StringBuilder>,
+    mutableStates: MutableStates
 ): Boolean {
-    val stringBuild = stringBuilder.value
+    val stringBuild = mutableStates.stringBuilder.value
+    val itemsToCountMap = mutableStates.itemsToCountMap
 
     if (keyEvent.type == KeyEventType.KeyDown) {
-        when(keyEvent.key) {
+        when (keyEvent.key) {
             Key.Enter -> {
                 val scanId = stringBuild.toString().toLong()
 
@@ -24,7 +25,7 @@ fun handleKeyEvents(
                     Database.getItemById(scanId)?.let {
                         itemsToCountMap[it]!!.value += 1
                     }
-                } else if(Database.isItemInDatabaseById(scanId)) {
+                } else if (Database.isItemInDatabaseById(scanId)) {
                     Database.getItemById(scanId)?.let { item ->
                         itemsToCountMap[Item(
                             price = item.price,
@@ -38,9 +39,11 @@ fun handleKeyEvents(
 
                 return true
             }
+
             Key.Delete -> {
                 itemsToCountMap.clear()
             }
+
             else -> {
                 stringBuild.append(java.awt.event.KeyEvent.getKeyText(keyEvent.key.nativeKeyCode))
             }

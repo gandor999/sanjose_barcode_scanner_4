@@ -7,10 +7,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,15 +16,19 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import states.MutableStates
+import states.Pages
 
 @Composable
 fun TotalsSection(
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>,
-    showDatabaseInsertionPage: MutableState<Boolean>
+    mutableStates: MutableStates
 ) {
+    val itemsToCountMap = mutableStates.itemsToCountMap
+    val showDatabaseInsertionPage = mutableStates.showDatabaseInsertionPage
+
     Column(
         modifier = modifier,
         verticalArrangement = verticalArrangement,
@@ -34,7 +36,7 @@ fun TotalsSection(
     ) {
         var totalPrice = 0.00;
         val openAlertDialog = remember { mutableStateOf(false) }
-        val sensilyo = remember { mutableStateOf(0.00) }
+        val sukli = remember { mutableStateOf(0.00) }
         val bayad = remember { mutableStateOf("") }
 
         itemsToCountMap.forEach { entry ->
@@ -55,14 +57,14 @@ fun TotalsSection(
 
                     Button(
                         onClick = {
-                            if (bayad.value.isNotEmpty()) sensilyo.value = bayad.value.toDouble() - totalPrice
+                            if (bayad.value.isNotEmpty()) sukli.value = bayad.value.toDouble() - totalPrice
 
                         }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(255, 127, 127))
                     ) {
                         Text("Kwenta")
                     }
 
-                    Text("Sensilyo: ${sensilyo.value} ₱", fontSize = TextUnit(35f, TextUnitType.Sp))
+                    Text("Sukli: ${sukli.value} ₱", fontSize = TextUnit(35f, TextUnitType.Sp))
                 }
             }
         }
@@ -76,7 +78,7 @@ fun TotalsSection(
             Row {
                 Button(
                     onClick = {
-                        showDatabaseInsertionPage.value = true
+                        mutableStates.currentPage.value = Pages.Database
                     },
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
                     modifier = Modifier.padding(horizontal = 5.dp)
@@ -92,7 +94,7 @@ fun TotalsSection(
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
                     modifier = Modifier.padding(horizontal = 5.dp)
                 ) {
-                    Text("Sensilyo")
+                    Text("Sukli")
                 }
 
                 Button(

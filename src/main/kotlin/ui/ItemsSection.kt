@@ -10,14 +10,16 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import states.MutableStates
 
 @Composable
 fun ItemsSection(
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>
+    mutableStates: MutableStates
 ) {
+    val itemsToCountMap = mutableStates.itemsToCountMap
 
     LazyColumn(
         modifier = modifier,

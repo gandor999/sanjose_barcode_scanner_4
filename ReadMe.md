@@ -16,6 +16,11 @@ Things to do:
  - [x] Make a button to go to another page to set the database items
  - [x] Implement sensilyo dialog to calculate change
  - [x] Implement delete, update
+ - [ ] Fix ilis bug
+ - [x] Change sensilyo with sukli
+ - [ ] Implement a new navigation bar on the left side
+ - [x] Refactor the whole passing of states thing to just one object, its such a hassle to keep on maintaining more than one parameter for each function
+ - [ ] Improve exception handling
  - [ ] Implement get and getAll
  - [ ] Refactor page navigation
  - [ ] make keyboard shortcuts to make things alot faster

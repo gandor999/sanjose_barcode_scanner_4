@@ -17,12 +17,14 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import database.Database
+import states.MutableStates
+import states.Pages
 
 @Composable
-fun CRUDPage(
-    requester: FocusRequester,
-    showDatabaseInsertionPage: MutableState<Boolean>
-) {
+fun CRUDPage(mutableStates: MutableStates) {
+    val requester = mutableStates.requester
+    val showDatabaseInsertionPage = mutableStates.showDatabaseInsertionPage
+
     Column(modifier = Modifier.focusRequester(requester).padding(10.dp)) {
         var itemName by remember { mutableStateOf("") }
         var barcode by remember { mutableStateOf("") }
@@ -141,7 +143,7 @@ fun CRUDPage(
         }
 
         Button(onClick = {
-            showDatabaseInsertionPage.value = false
+            mutableStates.currentPage.value = Pages.Cashier
         }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144))) {
             Text("Back to Cashier")
         }

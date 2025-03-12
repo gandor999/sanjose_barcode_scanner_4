@@ -51,7 +51,7 @@ object Database {
     fun updateAnItem(item: Item): Boolean {
         return try {
             if (isItemInDatabaseById(item.id)) {
-                val query = connection?.prepareStatement("UPDATE public.\"Item\" SET name = \'${item.name}\' price = ${item.price} WHERE id = ${item.id}'")
+                val query = connection?.prepareStatement("UPDATE public.\"Item\" SET name = \'${item.name}\' price = ${item.price} WHERE id = ${item.id}")
                 query?.executeUpdate()
                 return true
             }
