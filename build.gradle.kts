@@ -1,8 +1,10 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.com.intellij.openapi.vfs.StandardFileSystems.jar
 
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
+    id("java")
 }
 
 group = "com.example.san_jose_barcode_scanner_4"
@@ -34,4 +36,12 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+
+    tasks.jar {
+        manifest {
+            attributes ["Main-Class"] = application.mainClass
+        }
+    }
 }
+
+
