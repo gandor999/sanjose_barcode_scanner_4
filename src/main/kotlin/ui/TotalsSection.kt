@@ -27,7 +27,6 @@ fun TotalsSection(
     mutableStates: MutableStates
 ) {
     val itemsToCountMap = mutableStates.itemsToCountMap
-    val showDatabaseInsertionPage = mutableStates.showDatabaseInsertionPage
 
     Column(
         modifier = modifier,

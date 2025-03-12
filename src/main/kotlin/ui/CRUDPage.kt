@@ -17,13 +17,14 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import database.Database
+import error_handling.ErrorHandler
 import states.MutableStates
 import states.Pages
+import util.safeRun
 
 @Composable
 fun CRUDPage(mutableStates: MutableStates) {
     val requester = mutableStates.requester
-    val showDatabaseInsertionPage = mutableStates.showDatabaseInsertionPage
 
     Column(modifier = Modifier.focusRequester(requester).padding(10.dp)) {
         var itemName by remember { mutableStateOf("") }
@@ -56,28 +57,23 @@ fun CRUDPage(mutableStates: MutableStates) {
 
         Row {
             Button(
-                onClick = {
-                    if (barcode.isEmpty() || itemName.isEmpty() || price.isEmpty()) {
-                        // modal say that these must not be empty
-                        dialogText.value = "Dapat naay unod ang mga kahon"
-                    } else {
-                        if (Database.isItemInDatabaseById(barcode.toLong())) {
-                            dialogText.value = "Naa na ni na barcode sa atung database"
-                        } else if (Database.insertItem(
+                onClick ={
+                    safeRun(mutableStates) {
+                        check(barcode.isNotEmpty() || itemName.isNotEmpty() || price.isNotEmpty()) { "Dapat naay unod ang mga kahon" }
+                        check(!Database.isItemInDatabaseById(barcode.toLong())) { "Naa na ni na barcode sa atung database" }
+                        check(
+                            Database.insertItem(
                                 Item(
                                     id = barcode.toLong(),
                                     name = itemName,
                                     price = price.toDouble()
                                 )
                             )
-                        ) {
-                            dialogText.value = "Na dugang ang $barcode | $itemName sa presyo na $price ₱"
-                        } else {
-                            dialogText.value = "Wala na dugang ang item, palihug lantaw usab sa mga kahon"
-                        }
-                    }
+                        ) { "Wala na dugang ang item, palihug lantaw usab sa mga kahon" }
 
-                    openAlertDialog.value = true
+                        dialogText.value = "Na dugang ang $barcode | $itemName sa presyo na $price ₱"
+                        openAlertDialog.value = true
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
                 modifier = Modifier.padding(horizontal = 5.dp)
@@ -87,13 +83,11 @@ fun CRUDPage(mutableStates: MutableStates) {
 
             Button(
                 onClick = {
-                    if (barcode.isNotEmpty()) {
-                        Database.deleteItemById(barcode.toLong())
+                    safeRun(mutableStates) {
+                        check(barcode.isNotEmpty()) { "Dapat naay unod ang barcode" }
+                        check(Database.deleteItemById(barcode.toLong())) { "Wala na delete ang item sa database" }
+
                         dialogText.value = "Na delete na ang ${barcode.toLong()} sa database"
-                        openAlertDialog.value = true
-                    } else {
-                        dialogText.value =
-                            "Wala na delete ang ${barcode.toLong()}, palihug check ug naa ba gyud ni sa database o wala"
                         openAlertDialog.value = true
                     }
                 },
@@ -105,22 +99,19 @@ fun CRUDPage(mutableStates: MutableStates) {
 
             Button(
                 onClick = {
-                    if (barcode.isEmpty() || itemName.isEmpty() || price.isEmpty()) {
-                        if (Database.updateAnItem(
+                    safeRun(mutableStates) {
+                        check(barcode.isNotEmpty() || itemName.isNotEmpty() || price.isNotEmpty()) { "Dapat naay sulod ang mga kahon" } // should these be just
+                        check(
+                            Database.updateAnItem(
                                 Item(
                                     id = barcode.toLong(),
                                     name = itemName,
                                     price = price.toDouble()
                                 )
                             )
-                        ) {
-                            dialogText.value =
-                                "Na ilis na ang item na naay barcode: $barcode"
-                            openAlertDialog.value = true
-                        }
-                    } else {
-                        dialogText.value =
-                            "Wala na ilis ang item na naay barcode: $barcode, palihug ko double check sa mga kahon"
+                        ) { "Wala na ilis ang item sa database, palihug check usab sa mga kahon" }
+
+                        dialogText.value = "Na ilis na ang item na naay barcode: $barcode"
                         openAlertDialog.value = true
                     }
                 },
@@ -132,8 +123,9 @@ fun CRUDPage(mutableStates: MutableStates) {
 
             Button(
                 onClick = {
-                    dialogText.value = "Wala pa ni na himo"
-                    openAlertDialog.value = true
+                    safeRun(mutableStates) {
+                        error("Wala pa ni na himo")
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(144, 238, 144)),
                 modifier = Modifier.padding(horizontal = 5.dp)

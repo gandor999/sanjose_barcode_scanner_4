@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.input.key.*
 import database.Database
+import error_handling.ErrorHandler
 import states.MutableStates
 import ui.Item
 
@@ -53,4 +54,17 @@ fun handleKeyEvents(
     }
 
     return false
+}
+
+/**
+ * Since we can't catch exceptions directly from the topmost composable, we can organize the flow of exceptions this way by decorating every lambda or function invocation, it's not a pretty sight but it beats having to have try catches on every freaking onClick block!
+ * */
+fun safeRun(mutableStates: MutableStates, func: () -> Unit) {
+    try {
+        func()
+    } catch (e: Exception) {
+        ErrorHandler.handleException(e, mutableStates)
+    } catch (e: Error) {
+        ErrorHandler.handleError(e, mutableStates)
+    }
 }

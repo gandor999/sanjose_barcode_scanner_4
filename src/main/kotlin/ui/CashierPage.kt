@@ -20,8 +20,6 @@ import util.handleKeyEvents
 @Composable
 fun Cashier(mutableStates: MutableStates) {
     val requester = mutableStates.requester
-    val itemsToCountMap = mutableStates.itemsToCountMap
-    val showDatabaseInsertionPage = mutableStates.showDatabaseInsertionPage
 
     LaunchedEffect(Unit) {
         requester.captureFocus() // this seems like the most likely solution to not have the other buttons be focused

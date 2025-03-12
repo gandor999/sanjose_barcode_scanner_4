@@ -20,15 +20,15 @@ Things to do:
  - [x] Change sensilyo with sukli
  - [ ] Implement a new navigation bar on the left side
  - [x] Refactor the whole passing of states thing to just one object, its such a hassle to keep on maintaining more than one parameter for each function
- - [ ] Improve exception handling
+ - [x] Improve exception handling
  - [ ] Implement get and getAll
  - [ ] Refactor page navigation
  - [ ] make keyboard shortcuts to make things alot faster
- - [ ] Pag himo ug installation ani na app
+ - [x] Pag himo ug installation ani na app
  - [x] Make Item model
  - [x] Make a totals row
  - [x] Make an items row
  - [x] Make a clear all row
  - [x] Let Item model be something that can be removed
- - [ ] Integrate actual connection of barcode scanner and map info to Item class
+ - [x] Integrate actual connection of barcode scanner and map info to Item class
  - [x] Make a print receipt button
