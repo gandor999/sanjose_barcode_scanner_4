@@ -41,7 +41,7 @@ fun App() {
 }
 
 fun main() = application {
-    val icon = ImageIO.read(File("src/main/kotlin/images/ruales_icon.png"))
+    val icon = ImageIO.read(File(Paths.get("images/ruales_icon.png").toString()))
     val dotEnv = Dotenv.configure().directory(Paths.get(".env").toUri().toString()).load()
 
     try {
