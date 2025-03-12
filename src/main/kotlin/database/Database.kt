@@ -8,6 +8,7 @@ object Database {
     var connection: Connection? = null
 
     fun isItemInDatabaseById(id: Long): Boolean {
+        check(connection != null) { "Walay connected database" }
         val query = connection?.prepareStatement("SELECT COUNT(*) FROM public.\"Item\" WHERE id = $id")
 
         query?.executeQuery().use { rs ->
@@ -16,6 +17,7 @@ object Database {
     }
 
     fun getItemById(id: Long): Item? {
+        check(connection != null) { "Walay connected database" }
         val query = connection?.prepareStatement("SELECT id, name, price FROM public.\"Item\" WHERE id = $id")
 
         query?.executeQuery().use { rs ->
@@ -34,6 +36,7 @@ object Database {
     }
 
     fun insertItem(item: Item): Boolean {
+        check(connection != null) { "Walay connected database" }
         check(!isItemInDatabaseById(item.id)) { "Naa nay item barcode na ${item.id} sa database" }
 
         val query =
@@ -43,6 +46,7 @@ object Database {
     }
 
     fun updateAnItem(item: Item): Boolean {
+        check(connection != null) { "Walay connected database" }
         check(isItemInDatabaseById(item.id)) { "Walay item na naay barcode na ${item.id} sa database" }
 
         val query =
@@ -52,6 +56,7 @@ object Database {
     }
 
     fun deleteItemById(id: Long): Boolean {
+        check(connection != null) { "Walay connected database" }
         check(isItemInDatabaseById(id)) { "Walay item na naay barcode na $id sa database" }
 
         val query = connection?.prepareStatement("DELETE FROM public.\"Item\" WHERE id = $id")
