@@ -1,6 +1,5 @@
-package ui
+package ui.dialogs
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -14,9 +13,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import states.MutableStates
+import global_util.safeRun
 import states.States
-import util.safeRun
 
 @Composable
 fun KwentaDialog(openKwentaDialog: MutableState<Boolean>, totalPrice: Double) {

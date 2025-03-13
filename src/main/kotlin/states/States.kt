@@ -3,7 +3,7 @@ package states
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.focus.FocusRequester
-import ui.Item
+import ui.models.Item
 
 data class MutableStates(
     val itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>,

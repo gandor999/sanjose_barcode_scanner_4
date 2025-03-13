@@ -1,4 +1,4 @@
-package error_handling
+package error_handling.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,27 +1,29 @@
-package ui
+package ui.dialogs
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import states.MutableStates
+import com.google.gson.GsonBuilder
+import ui.models.Item
 
 @Composable
-fun SuccessDialog(openSuccessDialog: MutableState<Boolean>, dialogText: MutableState<String>) {
+fun SuccessDialog(openSuccessDialog: MutableState<Boolean>, dialogText: MutableState<String>, item: MutableState<Item?>) {
     Card {
         AlertDialog(
             backgroundColor = Color(174, 243, 231),
             onDismissRequest = {
                 openSuccessDialog.value = false
+                dialogText.value = ""
+                item.value = null
             },
             buttons = {
                 Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
@@ -36,9 +38,12 @@ fun SuccessDialog(openSuccessDialog: MutableState<Boolean>, dialogText: MutableS
             text = {
                 Column {
                     Text(dialogText.value)
+                    item.value?.let {
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        Text(gson.toJson(item.value), style = TextStyle(fontFamily = FontFamily.Monospace), modifier = Modifier.padding(top = 10.dp))
+                    }
                 }
             }
         )
     }
-
 }

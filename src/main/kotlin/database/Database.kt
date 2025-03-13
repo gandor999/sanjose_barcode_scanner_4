@@ -1,6 +1,6 @@
 package database
 
-import ui.Item
+import ui.models.Item
 import java.sql.Connection
 
 
@@ -16,33 +16,29 @@ object Database {
         }
     }
 
-    fun getItemById(id: Long): Item? {
+    fun getItemById(id: Long): Item {
         check(connection != null) { "Walay connected database" }
-        val query = connection?.prepareStatement("SELECT id, name, price FROM public.\"Item\" WHERE id = $id")
+        check(isItemInDatabaseById(id)) { "Walay item na naay barcode na $id sa database" }
+        val query = connection?.prepareStatement("SELECT * FROM public.\"Item\" WHERE id = $id")
 
         query?.executeQuery().use { rs ->
-            if (rs?.next() == false || rs == null) return null
+            check(rs?.next() == true || rs != null) { "Walay na kit.an" }
 
-            if (isItemInDatabaseById(id)) {
-                return Item(
-                    id = rs.getLong("id"),
-                    price = rs.getDouble("price"),
-                    name = rs.getString("name")
-                )
-            }
-
-            return null
+            return Item(
+                id = rs!!.getLong("id"),
+                price = rs.getDouble("price"),
+                name = rs.getString("name")
+            )
         }
     }
 
-    fun insertItem(item: Item): Boolean {
+    fun insertItem(item: Item) {
         check(connection != null) { "Walay connected database" }
         check(!isItemInDatabaseById(item.id)) { "Naa nay item barcode na ${item.id} sa database" }
 
         val query =
             connection?.prepareStatement("INSERT INTO public.\"Item\" (id, name, price) VALUES (${item.id}, \'${item.name}\', ${item.price})")
         query?.executeUpdate()
-        return true
     }
 
     fun updateAnItem(item: Item): Boolean {

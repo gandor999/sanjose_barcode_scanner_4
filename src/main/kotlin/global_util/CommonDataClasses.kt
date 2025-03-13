@@ -1,4 +1,4 @@
-package util
+package global_util
 
 data class DatabaseMetadata(
     val databaseUrl: String,

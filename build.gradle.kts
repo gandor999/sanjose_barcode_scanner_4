@@ -25,6 +25,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation("org.postgresql:postgresql:42.5.0")
     implementation("io.github.cdimascio:dotenv-java:3.2.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
 
 compose.desktop {

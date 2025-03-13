@@ -1,13 +1,8 @@
 package error_handling
 
-import androidx.compose.material.Text
-import androidx.compose.runtime.MutableState
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.application
 import error_handling.exceptions_wrapper.DatabaseException
 import states.ErrorDialogConfig
 import states.MutableStates
-import java.lang.NumberFormatException
 
 class ErrorHandler {
     companion object {

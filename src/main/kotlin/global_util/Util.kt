@@ -1,13 +1,11 @@
-package util
+package global_util
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.input.key.*
 import database.Database
 import error_handling.ErrorHandler
 import states.MutableStates
-import ui.Item
+import ui.models.Item
 
 fun handleKeyEvents(
     keyEvent: KeyEvent,

@@ -1,4 +1,4 @@
-package ui
+package ui.navigation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight

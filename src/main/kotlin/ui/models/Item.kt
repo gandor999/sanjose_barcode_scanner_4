@@ -1,4 +1,4 @@
-package ui
+package ui.models
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 data class Item(
-    val price: Double,
-    val name: String,
+    val price: Double = 0.00,
+    val name: String = "",
     val id: Long = 0L
 )
 
@@ -27,7 +27,7 @@ fun ItemWrapper(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     count: MutableState<Int>,
-    itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>> ,
+    itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>,
 ) {
     Row(modifier = modifier, horizontalArrangement = horizontalArrangement, verticalAlignment = verticalAlignment) {
         Text(text = "${item.name} x${count.value}", modifier = Modifier.padding(horizontal = 10.dp))
