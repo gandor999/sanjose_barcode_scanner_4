@@ -21,12 +21,12 @@ Things to do:
  - [x] Implement a new navigation bar on the left side
  - [x] Refactor the whole passing of states thing to just one object, its such a hassle to keep on maintaining more than one parameter for each function
  - [x] Improve exception handling
- - [ ] Implement get and getAll
- - [ ] Let get all be just a modal?
+ - [x] Implement get
+ - [ ] Implement recibo button
  - [ ] Implement utang page
  - [ ] Implement inventory page
  - [ ] Implement halin page
- - [ ] Implement ug barcode maker page
+ - [ ] Implement ug barcode generator page
  - [x] Refactor page navigation
  - [ ] make keyboard shortcuts to make things alot faster
  - [x] Pag himo ug installation ani na app

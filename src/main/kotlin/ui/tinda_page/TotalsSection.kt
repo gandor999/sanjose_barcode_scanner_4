@@ -65,7 +65,7 @@ fun TotalsSection(
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(116, 140, 171)),
                     modifier = Modifier.padding(horizontal = 5.dp)
                 ) {
-                    Text("Panghad")
+                    Text("Resibo")
                 }
                 Button(
                     onClick = {
