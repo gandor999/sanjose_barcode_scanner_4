@@ -35,7 +35,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "san_jose_barcode_scanner_4"
-            packageVersion = "2.0.3"
+            packageVersion = "2.1.3"
         }
     }
 
