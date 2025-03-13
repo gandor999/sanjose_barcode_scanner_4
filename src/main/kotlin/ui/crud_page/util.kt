@@ -3,7 +3,7 @@ package ui.crud_page
 import database.Database
 import ui.models.Item
 
-fun onClickDugang(crudPageStates: CRUDPageStates){
+fun onClickDugang(crudPageStates: CRUDPageStates) {
     val (itemName, barcode, price, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     listOf("barcode" to barcode, "itemName" to itemName, "price" to price)
@@ -21,26 +21,26 @@ fun onClickDugang(crudPageStates: CRUDPageStates){
     openSuccessDialog.value = true
 }
 
-fun onClickIlis(crudPageStates: CRUDPageStates){
+fun onClickIlis(crudPageStates: CRUDPageStates) {
     val (itemName, barcode, price, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     listOf("barcode" to barcode, "itemName" to itemName, "price" to price)
         .forEach { (name, value) -> check(value.value.isNotEmpty()) { "Dapat naay unod ang $name" } }
-    check(
-        Database.updateAnItem(
-            Item(
-                id = barcode.value.toLong(),
-                name = itemName.value,
-                price = price.value.toDouble()
-            )
-        )
-    ) { "Wala na ilis ang item sa database, palihug check usab sa mga kahon" }
 
-    dialogText.value = "Na ilis na ang item na naay barcode: $barcode"
+    val updatedItem = Item(
+        id = barcode.value.toLong(),
+        name = itemName.value,
+        price = price.value.toDouble()
+    )
+
+    check(Database.updateAnItem(updatedItem)) { "Wala na ilis ang item sa database, palihug check usab sa mga kahon" }
+
+    queriedItem.value = updatedItem
+    dialogText.value = "Pag ilis"
     openSuccessDialog.value = true
 }
 
-fun onClickLantaw(crudPageStates: CRUDPageStates){
+fun onClickLantaw(crudPageStates: CRUDPageStates) {
     val (_, barcode, _, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     check(barcode.value.isNotEmpty()) { "Dapat naay unod ang barcode" }
@@ -49,12 +49,12 @@ fun onClickLantaw(crudPageStates: CRUDPageStates){
     dialogText.value = "Mao ni ang na kuha"
 }
 
-fun onClickTangTang(crudPageStates: CRUDPageStates){
-    val (_, barcode, _, openSuccessDialog, dialogText, _) = crudPageStates
+fun onClickTangTang(crudPageStates: CRUDPageStates) {
+    val (_, barcode, _, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     check(barcode.value.isNotEmpty()) { "Dapat naay unod ang barcode" }
-    check(Database.deleteItemById(barcode.value.toLong())) { "Wala na delete ang item sa database" }
 
-    dialogText.value = "Na delete na ang ${barcode.value.toLong()} sa database"
+    queriedItem.value = Database.deleteItemById(barcode.value.toLong())
+    dialogText.value = "Mao ni ang na delete"
     openSuccessDialog.value = true
 }

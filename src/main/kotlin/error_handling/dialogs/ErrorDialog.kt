@@ -33,10 +33,7 @@ fun ErrorDialog(mutableStates: MutableStates) {
         text = {
             Column {
                 Text("Error Message: ${mutableStates.errorDialogConfig.value.errorMessage}")
-                mutableStates.errorDialogConfig.value.exception?.let {
-                    Text("Error Type: " + it::class.simpleName)
-                }
-                mutableStates.errorDialogConfig.value.error?.let {
+                mutableStates.errorDialogConfig.value.throwable?.let {
                     Text("Error Type: " + it::class.simpleName)
                 }
             }

@@ -66,9 +66,7 @@ fun handleKeyEvents(
 fun safeRun(mutableStates: MutableStates, func: () -> Unit) {
     try {
         func()
-    } catch (e: Exception) {
-        ErrorHandler.handleException(e, mutableStates)
-    } catch (e: Error) {
-        ErrorHandler.handleError(e, mutableStates)
+    } catch (e: Throwable) {
+        ErrorHandler.handleThrowable(e, mutableStates)
     }
 }

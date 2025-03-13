@@ -16,8 +16,7 @@ data class MutableStates(
 data class ErrorDialogConfig(
     var openErrorDialog: Boolean = false,
     var errorMessage: String = "",
-    var exception: Exception? = null,
-    var error: Error? = null
+    var throwable: Throwable? = null
 )
 
 // do we really need to follow a viewmodel pattern? this seems to work real good already

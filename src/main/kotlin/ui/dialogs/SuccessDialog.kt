@@ -17,18 +17,22 @@ import ui.models.Item
 
 @Composable
 fun SuccessDialog(openSuccessDialog: MutableState<Boolean>, dialogText: MutableState<String>, item: MutableState<Item?>) {
+    fun onDismiss() {
+        openSuccessDialog.value = false
+        dialogText.value = ""
+        item.value = null
+    }
+
     Card {
         AlertDialog(
             backgroundColor = Color(174, 243, 231),
             onDismissRequest = {
-                openSuccessDialog.value = false
-                dialogText.value = ""
-                item.value = null
+                onDismiss()
             },
             buttons = {
                 Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                     TextButton(onClick = {
-                        openSuccessDialog.value = false
+                        onDismiss()
                     }) {
                         Text("Ok")
                     }

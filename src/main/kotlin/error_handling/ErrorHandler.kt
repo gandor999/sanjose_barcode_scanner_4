@@ -6,10 +6,8 @@ import states.MutableStates
 
 class ErrorHandler {
     companion object {
-        fun handleException(e: Exception, mutableState: MutableStates) {
-            val errorDialogConfig = ErrorDialogConfig(openErrorDialog = true, errorMessage = e.message.toString(), exception = e)
-
-            println(e)
+        fun handleThrowable(e: Throwable, mutableState: MutableStates) {
+            val errorDialogConfig = ErrorDialogConfig(openErrorDialog = true, errorMessage = e.message.toString(), throwable = e)
 
             when(e) {
                 is DatabaseException -> {
@@ -24,17 +22,8 @@ class ErrorHandler {
                 }
             }
 
-            mutableState.errorDialogConfig.value = errorDialogConfig
-        }
+            if (errorDialogConfig.errorMessage != e.message) errorDialogConfig.errorMessage += "; ${e.message}"
 
-        fun handleError(e: Error, mutableState: MutableStates) {
-            val errorDialogConfig = ErrorDialogConfig(openErrorDialog = true, errorMessage = e.message.toString(), error = e)
-
-            mutableState.errorDialogConfig.value = errorDialogConfig
-        }
-
-        fun handleThrowable(e: Throwable, mutableState: MutableStates) {
-            val errorDialogConfig = ErrorDialogConfig(openErrorDialog = true, errorMessage = e.message.toString())
             mutableState.errorDialogConfig.value = errorDialogConfig
         }
     }

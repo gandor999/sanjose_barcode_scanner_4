@@ -51,12 +51,14 @@ object Database {
         return true
     }
 
-    fun deleteItemById(id: Long): Boolean {
+    fun deleteItemById(id: Long): Item {
         check(connection != null) { "Walay connected database" }
         check(isItemInDatabaseById(id)) { "Walay item na naay barcode na $id sa database" }
 
+        val itemToBeDeleted = getItemById(id)
+
         val query = connection?.prepareStatement("DELETE FROM public.\"Item\" WHERE id = $id")
         query?.executeUpdate()
-        return true
+        return itemToBeDeleted
     }
 }
