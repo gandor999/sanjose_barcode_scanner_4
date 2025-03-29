@@ -3,7 +3,7 @@ package ui.crud_page
 import database.Database
 import ui.models.Item
 
-fun onClickDugang(crudPageStates: CRUDPageStates) {
+suspend fun onClickDugang(crudPageStates: CRUDPageStates) {
     val (itemName, barcode, price, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     listOf("barcode" to barcode, "itemName" to itemName, "price" to price)
@@ -21,7 +21,7 @@ fun onClickDugang(crudPageStates: CRUDPageStates) {
     openSuccessDialog.value = true
 }
 
-fun onClickIlis(crudPageStates: CRUDPageStates) {
+suspend fun onClickIlis(crudPageStates: CRUDPageStates) {
     val (itemName, barcode, price, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     listOf("barcode" to barcode, "itemName" to itemName, "price" to price)
@@ -40,7 +40,7 @@ fun onClickIlis(crudPageStates: CRUDPageStates) {
     openSuccessDialog.value = true
 }
 
-fun onClickLantaw(crudPageStates: CRUDPageStates) {
+suspend fun onClickLantaw(crudPageStates: CRUDPageStates) {
     val (_, barcode, _, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     check(barcode.value.isNotEmpty()) { "Dapat naay unod ang barcode" }
@@ -49,7 +49,7 @@ fun onClickLantaw(crudPageStates: CRUDPageStates) {
     dialogText.value = "Mao ni ang na kuha"
 }
 
-fun onClickTangTang(crudPageStates: CRUDPageStates) {
+suspend fun onClickTangTang(crudPageStates: CRUDPageStates) {
     val (_, barcode, _, openSuccessDialog, dialogText, queriedItem) = crudPageStates
 
     check(barcode.value.isNotEmpty()) { "Dapat naay unod ang barcode" }

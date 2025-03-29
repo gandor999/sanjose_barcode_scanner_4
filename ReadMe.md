@@ -37,3 +37,7 @@ Things to do:
  - [x] Let Item model be something that can be removed
  - [x] Integrate actual connection of barcode scanner and map info to Item class
  - [x] Make a print receipt button
+ - [ ] Continue with refactoring of suspend functions for coroutines
+ - [ ] Make barcode gen more pretty
+ - [ ] Test out on printer
+ - [ ] Test printer on print button

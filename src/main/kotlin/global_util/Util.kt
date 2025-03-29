@@ -4,6 +4,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.input.key.*
 import database.Database
 import error_handling.ErrorHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import states.MutableStates
 import ui.models.Item
 
@@ -17,7 +21,7 @@ fun handleKeyEvents(
     if (keyEvent.type == KeyEventType.KeyDown) {
         when (keyEvent.key) {
             Key.Enter -> {
-                safeRun(mutableStates) {
+                safeRunAsync(mutableStates, Dispatchers.IO) {
                     val scanId = stringBuild.toString().toLong()
 
                     if (itemsToCountMap.entries.map { item -> item.key.id }
@@ -68,5 +72,20 @@ fun safeRun(mutableStates: MutableStates, func: () -> Unit) {
         func()
     } catch (e: Throwable) {
         ErrorHandler.handleThrowable(e, mutableStates)
+    }
+}
+
+/**
+ * Since we can't catch exceptions directly from the topmost composable, we can organize the flow of exceptions this way by decorating every lambda or function invocation, it's not a pretty sight but it beats having to have try catches on every freaking onClick block!
+ * */
+fun safeRunAsync(mutableStates: MutableStates, dispatcher: CoroutineDispatcher, func: suspend () -> Unit) {
+    safeRun(mutableStates) {
+        CoroutineScope(dispatcher).launch {
+            try {
+                func()
+            } catch (e: Throwable) {
+                ErrorHandler.handleThrowable(e, mutableStates)
+            }
+        }
     }
 }

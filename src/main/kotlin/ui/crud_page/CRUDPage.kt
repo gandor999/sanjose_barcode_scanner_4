@@ -16,6 +16,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import global_util.safeRun
+import global_util.safeRunAsync
+import kotlinx.coroutines.Dispatchers
 import states.MutableStates
 import ui.dialogs.SuccessDialog
 import ui.models.Item
@@ -72,7 +74,7 @@ fun CRUDPage(mutableStates: MutableStates) {
         Row(modifier = Modifier.padding(top = 10.dp)) {
             Button(
                 onClick = {
-                    safeRun(mutableStates) {
+                    safeRunAsync(mutableStates, Dispatchers.IO) {
                         onClickDugang(crudPageStates)
                     }
                 },
@@ -84,7 +86,7 @@ fun CRUDPage(mutableStates: MutableStates) {
 
             Button(
                 onClick = {
-                    safeRun(mutableStates) {
+                    safeRunAsync(mutableStates, Dispatchers.IO) {
                         onClickIlis(crudPageStates)
                     }
                 },
@@ -96,7 +98,7 @@ fun CRUDPage(mutableStates: MutableStates) {
 
             Button(
                 onClick = {
-                    safeRun(mutableStates) {
+                    safeRunAsync(mutableStates, Dispatchers.IO) {
                         onClickLantaw(crudPageStates)
                     }
                 },
@@ -108,7 +110,7 @@ fun CRUDPage(mutableStates: MutableStates) {
 
             Button(
                 onClick = {
-                    safeRun(mutableStates) {
+                    safeRunAsync(mutableStates, Dispatchers.IO) {
                         onClickTangTang(crudPageStates)
                     }
                 },

@@ -11,7 +11,7 @@ class ErrorHandler {
 
             when(e) {
                 is DatabaseException -> {
-                    errorDialogConfig.errorMessage = "Could not connect ot database"
+                    errorDialogConfig.errorMessage = "Could not connect to database"
                 }
 
                 is  NumberFormatException -> {

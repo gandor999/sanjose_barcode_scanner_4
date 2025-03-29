@@ -29,7 +29,7 @@ fun ErrorDialog(mutableStates: MutableStates) {
                 }
             }
         },
-        title = { Text("Error Occurred") },
+        title = { Text("Error") },
         text = {
             Column {
                 Text("Error Message: ${mutableStates.errorDialogConfig.value.errorMessage}")
