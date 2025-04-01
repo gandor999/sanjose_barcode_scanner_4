@@ -6,12 +6,17 @@ import net.sourceforge.barbecue.BarcodeFactory
 import net.sourceforge.barbecue.BarcodeImageHandler
 import java.awt.Color
 import java.awt.Font
+import java.awt.Graphics
 import java.awt.image.BufferedImage
+import java.awt.print.PageFormat
+import java.awt.print.Printable
 import java.util.*
+import kotlin.math.roundToInt
 
 
-class BarcodeGenerator {
-    private val limitRandomStringLength = 15
+class BarcodeGenerator: Printable {
+    private val limitRandomStringLength = 9
+    private var barcodeImageGenerated: BufferedImage? = null;
 
     private fun getRandomString(): String {
         val leftLimit = 48; // '0'
@@ -54,6 +59,8 @@ class BarcodeGenerator {
             )
         }
 
+        barcodeImageGenerated = newPaddedImage
+
         g.dispose()
 
         return newPaddedImage;
@@ -71,5 +78,31 @@ class BarcodeGenerator {
         }
 
         return barcode;
+    }
+
+    override fun print(graphics: Graphics?, pageFormat: PageFormat?, pageIndex: Int): Int {
+        if (this.barcodeImageGenerated == null) return Printable.NO_SUCH_PAGE
+
+        this.barcodeImageGenerated?.let {
+            if (pageIndex > 0) {
+                return Printable.NO_SUCH_PAGE;
+            }
+
+            val originalWidth: Int = it.width
+            val originalHeight: Int = it.height
+
+            val targetWidthMM = SupportedPrinterWidth
+            val printerDPI = SupportedPrinterDPI
+
+            val targetWidth = (targetWidthMM * printerDPI / 80).toInt() // Convert mm to pixels
+            val scaleFactor = targetWidth.toDouble() / originalWidth
+            val targetHeight = (originalHeight * scaleFactor).toInt()
+
+            val posX = (pageFormat?.paper?.width?.toInt()?.minus(targetWidth))?.div(2)?.minus(2.5)?.roundToInt() // the printer seems to have some extra padding to the left, even when using the FEED button, it doesn't center things completely
+
+            graphics?.drawImage(it, posX!!, 0, targetWidth, targetHeight, null);
+        }
+
+        return Printable.PAGE_EXISTS
     }
 }

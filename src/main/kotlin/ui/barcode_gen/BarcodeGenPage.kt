@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +23,9 @@ import states.MutableStates
 import ui.dialogs.SuccessDialog
 import ui.models.Item
 import java.awt.image.BufferedImage
+import java.awt.print.PageFormat
+import java.awt.print.Paper
+import java.awt.print.PrinterJob
 
 @Composable
 fun BarcodeGenPage(mutableStates: MutableStates) {
@@ -34,6 +38,7 @@ fun BarcodeGenPage(mutableStates: MutableStates) {
     val openSuccessDialog = remember { mutableStateOf(false) }
     val dialogText = remember { mutableStateOf("") }
     val item = remember { mutableStateOf<Item?>(null) }
+    val barcodeGenerator by remember { mutableStateOf(BarcodeGenerator()) }
 
     Column(
         modifier = Modifier.fillMaxSize().border(width = 1.dp, color = Color.Black),
@@ -84,9 +89,8 @@ fun BarcodeGenPage(mutableStates: MutableStates) {
 
                     safeRunAsync(mutableStates, Dispatchers.IO) {
                         // not very noticable but it does do some checking on the database
-                        val barcodeGenerator = BarcodeGenerator()
                         barcode.value = barcodeGenerator.getNewBarcode()
-                        barcode.value?.let{
+                        barcode.value?.let {
                             barcodeImage.value = barcodeGenerator.getBarcodeImage(it, "${itemName.value} --- ₱ ${price.value}")
                             openBarcodeImage.value = true
                         }
@@ -98,7 +102,15 @@ fun BarcodeGenPage(mutableStates: MutableStates) {
 
             Button(onClick = {
                 safeRun(mutableStates) {
-                    require(openBarcodeImage.value) {"Barcode image must first be made"}
+                    require(openBarcodeImage.value) {"Dapat himoon usa ang barcode"}
+                    val printerJob = PrinterJob.getPrinterJob()
+                    val pageFormat = printerJob.defaultPage()
+                    pageFormat.orientation = PageFormat.PORTRAIT
+
+                    pageFormat.paper.setImageableArea(0.0, 0.0, pageFormat.paper.width, pageFormat.paper.height)
+
+                    printerJob.setPrintable(barcodeGenerator, pageFormat)
+                    printerJob.print()
                 }
             }) {
                 Text("Print")
