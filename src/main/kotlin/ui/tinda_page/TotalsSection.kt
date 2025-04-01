@@ -38,7 +38,7 @@ fun TotalsSection(
         }
 
         if (openKwentaDialog.value) {
-            KwentaDialog(openKwentaDialog, totalPrice)
+            KwentaDialog(openKwentaDialog, totalPrice, mutableStates)
         }
 
         Row(
@@ -58,15 +58,6 @@ fun TotalsSection(
                     Text("Sukli")
                 }
 
-                Button(
-                    onClick = {
-                        // TODO
-                    },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(116, 140, 171)),
-                    modifier = Modifier.padding(horizontal = 5.dp)
-                ) {
-                    Text("Resibo")
-                }
                 Button(
                     onClick = {
                         itemsToCountMap.clear()

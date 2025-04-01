@@ -1,8 +1,7 @@
 package ui.models
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -12,7 +11,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 data class Item(
     val price: Double = 0.00,
@@ -30,7 +31,10 @@ fun ItemWrapper(
     itemsToCountMap: SnapshotStateMap<Item, MutableState<Int>>,
 ) {
     Row(modifier = modifier, horizontalArrangement = horizontalArrangement, verticalAlignment = verticalAlignment) {
-        Text(text = "${item.name} x${count.value}", modifier = Modifier.padding(horizontal = 10.dp))
+        Row(modifier = Modifier.width(250.dp)) {
+            Text(text = item.name, modifier = Modifier.padding(horizontal = 10.dp).width(200.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = "x ${count.value}")
+        }
         Row(verticalAlignment = verticalAlignment) {
             Text(text = "${item.price * count.value} ₱", modifier = Modifier.padding(horizontal = 10.dp))
             Button(
@@ -39,7 +43,7 @@ fun ItemWrapper(
                 }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(116, 140, 171)),
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
-                Text("+")
+                Text("+", color = Color.White)
             }
 
             Button(
@@ -52,7 +56,7 @@ fun ItemWrapper(
                 }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(171, 78, 104)),
                 modifier = Modifier.padding(horizontal = 5.dp)
             ) {
-                Text("-")
+                Text("-", color = Color.White)
             }
 
             Button(

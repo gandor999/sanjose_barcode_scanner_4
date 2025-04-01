@@ -1,9 +1,12 @@
-package global_util
+package ui.barcode_gen
 
 import database.Database
+import global_util.SupportedPrinterDPI
+import global_util.SupportedPrinterWidth
 import net.sourceforge.barbecue.Barcode
 import net.sourceforge.barbecue.BarcodeFactory
 import net.sourceforge.barbecue.BarcodeImageHandler
+import ui.tinda_page.addExtraLineToImage
 import java.awt.Color
 import java.awt.Font
 import java.awt.Graphics
@@ -38,7 +41,7 @@ class BarcodeGenerator: Printable {
         val paddingHorizontal = rawBarcodeImage.width + 50
         val paddingVertical = rawBarcodeImage.height + 50
 
-        val newPaddedImage = BufferedImage(paddingHorizontal, paddingVertical, rawBarcodeImage.type);
+        var newPaddedImage = BufferedImage(paddingHorizontal, paddingVertical, rawBarcodeImage.type);
 
         // all these change consecutively like a C++ pointer, think of g as the pen
         val g = newPaddedImage.graphics
@@ -58,6 +61,15 @@ class BarcodeGenerator: Printable {
                 (newPaddedImage.height - g.fontMetrics.height) + g.fontMetrics.ascent - 10
             )
         }
+        g.dispose()
+
+        newPaddedImage = addExtraLineToImage(newPaddedImage, 50)
+        val g2 = newPaddedImage.createGraphics()
+        g2.font = Font("Arial", Font.PLAIN, 15)
+        g2.color = Color.BLACK
+        val cutLine = "---------------"
+        g2.drawString(cutLine, (newPaddedImage.width - g2.fontMetrics.stringWidth(cutLine)) / 2, newPaddedImage.height - g2.fontMetrics.height)
+        g2.dispose()
 
         barcodeImageGenerated = newPaddedImage
 

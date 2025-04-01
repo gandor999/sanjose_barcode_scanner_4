@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.unit.dp
 import database.Database
-import global_util.BarcodeGenerator
 import global_util.safeRun
 import global_util.safeRunAsync
 import kotlinx.coroutines.*
@@ -24,7 +23,6 @@ import ui.dialogs.SuccessDialog
 import ui.models.Item
 import java.awt.image.BufferedImage
 import java.awt.print.PageFormat
-import java.awt.print.Paper
 import java.awt.print.PrinterJob
 
 @Composable

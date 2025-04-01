@@ -22,11 +22,11 @@ Things to do:
  - [x] Refactor the whole passing of states thing to just one object, its such a hassle to keep on maintaining more than one parameter for each function
  - [x] Improve exception handling
  - [x] Implement get
- - [ ] Implement recibo button
+ - [x] Implement recibo button
  - [ ] Implement utang page
  - [ ] Implement inventory page
  - [ ] Implement halin page
- - [ ] Implement ug barcode generator page
+ - [x] Implement ug barcode generator page
  - [x] Refactor page navigation
  - [ ] make keyboard shortcuts to make things alot faster
  - [x] Pag himo ug installation ani na app
@@ -41,4 +41,6 @@ Things to do:
  - [x] Make barcode gen more pretty
  - [x] Test out on printer
  - [x] Test printer on print button
- - [ ] Move resibo to skukli button
+ - [x] Move resibo to skukli button
+ - [x] finish implementing working resibo for tinda and barcode gen page
+ - [ ] Put a check wherein resibo can only be clicked once total is greater than 0 and sukli has been calculated
