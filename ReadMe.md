@@ -83,3 +83,4 @@ Preview:
  - [x] Move resibo to skukli button
  - [x] finish implementing working resibo for tinda and barcode gen page
  - [ ] Put a check wherein resibo can only be clicked once total is greater than 0 and sukli has been calculated
+ - [ ] Refactor printing logics, it has become too complex, write unit tests for this now, its time
