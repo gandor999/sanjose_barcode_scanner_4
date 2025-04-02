@@ -36,6 +36,11 @@ Preview:
 ### Building the app
 1. Type in `./gradlew shadowJar`
 2. Go to `./build/libs`. The jar will be located here
+#### Distributing
+1. Convert jar to exe using [launch4j](https://nchc.dl.sourceforge.net/project/launch4j/launch4j-3/3.50/launch4j-3.50-win32.exe?viasf=1)
+2. Put `images`, `.env`, and `the_app.exe` into one zip
+3. Use [nsis](https://onboardcloud.dl.sourceforge.net/project/nsis/NSIS%203/3.11/nsis-3.11-setup.exe?viasf=1) to make an installer
+4. Attach installer as a new release in the github repository
 
 ## Things to do:
 
